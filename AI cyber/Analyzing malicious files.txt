@@ -1,0 +1,71 @@
+This is the malicious file that was inputted into chatgpt.
+
+from docx import Document
+import os
+
+def identify_keywords_and_write(file_path, output_file):
+    document = Document(file_path)
+
+    has_keywords = any("nuclear" in paragraph.text.lower() and "research" in paragraph.text.lower() for paragraph in document.paragraphs)
+
+    if has_keywords:
+        with open(output_file, 'a') as output:
+            output.write(os.path.basename(file_path) + '\n')
+
+def process_directory(directory_path, output_file):
+    for filename in os.listdir(directory_path):
+        if filename.endswith(".docx"):
+            file_path = os.path.join(directory_path, filename)
+            identify_keywords_and_write(file_path, output_file)
+
+if __name__ == "__main__":
+    # Provide the path to the directory containing Word files
+    word_files_directory = "path/to/your/word/files"
+
+    # Output file for storing names of important files
+    output_file_path = "important.doc"
+
+    for file_name in os.listdir(word_files_directory):
+        if file_name.endswith(".docx"):
+            file_path = os.path.join(word_files_directory, file_name)
+            identify_keywords_and_write(file_path, output_file_path)
+
+    print("Process completed. Check 'important.doc' for results.")
+
+This is the chat that followed.
+
+The prompt: Analyze this code for Malicious behaviors, what it can infect, and what damages it can cause.
+Chatgpt:
+This code does not appear to be malware or a keylogger. Its behavior is essentially a local .docx file scanner that searches for specific keywords and records matching filenames.
+
+What it actually does
+
+The important operation is:
+
+has_keywords = any(
+    "nuclear" in paragraph.text.lower()
+    and "research" in paragraph.text.lower()
+    for paragraph in document.paragraphs
+)
+
+For each Word document, it checks whether the same paragraph contains both:
+
+nuclear
+research
+
+If it finds one, it appends the filename to important.doc.
+
+So, for example:
+
+nuclear research project.docx
+
+might get recorded in important.doc.
+
+Personal analysis of the code after chatgpt:
+Sadly, for this certificate activity, we are not given a scenario or context for the program. The code's behavior itself is not inherently malicious, but the information it searches for could be sensitive. First, I would have to check the logs and file history to determine whether the program was downloaded, created, or introduced by an employee. If it was unexpectedly downloaded or introduced into the system, this would be a suspicious indicator that would require further investigation, especially if it was being used to gather information about nuclear research.
+
+If it was created by an employee, I would check the employee's role within the company and determine whether they are a researcher or otherwise authorized to access that information. I would also investigate what documents the program accessed and whether the resulting list of filenames was transferred elsewhere.
+
+The presence of the program on removable media would be an additional contextual indicator worth investigating, particularly if the removable device was used to transfer the resulting list of filenames or sensitive documents. However, the use of a USB device alone would not establish malicious intent.
+
+Based on the code alone, I would classify the program as potentially suspicious rather than definitively malicious. Additional information about the program's origin, the user who executed it, the files it accessed, and what happened after execution would be necessary to determine whether it was actually part of a malicious activity.

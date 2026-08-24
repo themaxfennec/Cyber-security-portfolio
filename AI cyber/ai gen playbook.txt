@@ -1,0 +1,264 @@
+Malware Incident Response Playbook
+This playbook is designed for an organization whose systems may be compromised and that stores customer and vendor information. Treat the incident as potentially involving both malware and unauthorized data access until investigation proves otherwise.
+
+1. Immediate Priorities
+Protect people and safety-critical operations.
+Contain attacker access without destroying evidence.
+Preserve logs and forensic evidence.
+Determine whether customer or vendor data was accessed or exfiltrated.
+Restore operations from trusted systems.
+Meet legal, contractual, regulatory, and insurance obligations.
+If the malware is actively encrypting files, deleting backups, spreading, or communicating with an attacker, escalate immediately to your incident-response provider, cyber insurer, legal counsel, and relevant authorities.
+
+2. First 60 Minutes
+Activate the incident team
+Assign an incident commander and create a dedicated communication channel that is not dependent on potentially compromised systems.
+
+Recommended roles:
+
+Incident commander
+IT and infrastructure lead
+Security/forensics lead
+Legal and privacy counsel
+Executive decision-maker
+Communications/customer-support lead
+HR representative, if employee accounts or devices are involved
+Cyber-insurance and external incident-response contacts
+Record all decisions, actions, timestamps, and people involved.
+
+Contain the suspected systems
+Depending on the situation:
+
+Isolate infected endpoints from the network using EDR or network controls.
+Disconnect systems that are actively spreading malware.
+Disable compromised VPN, remote-access, and administrative accounts.
+Block known malicious domains, IP addresses, URLs, and file hashes.
+Restrict east-west traffic between network segments.
+Temporarily restrict access to customer, vendor, payment, and identity systems.
+Preserve systems in their current state when possible.
+Do not immediately wipe, reimage, or power off every affected device. This may destroy memory, malware, persistence mechanisms, and other evidence. If a system is actively encrypting data or causing operational harm, containment takes priority; document what was done and why.
+
+Protect accounts and privileged access
+Disable confirmed compromised accounts.
+Reset passwords for affected users and administrators.
+Revoke active sessions, refresh tokens, API keys, SSH keys, and cloud access tokens.
+Rotate privileged, service, database, backup, and domain-administrator credentials.
+Enforce multifactor authentication, especially for remote and privileged access.
+Review newly created accounts, privilege changes, mailbox forwarding rules, and suspicious OAuth applications.
+Do not reset credentials in a way that destroys useful authentication evidence without first consulting the forensic lead.
+
+3. First 4 Hours
+Preserve evidence
+Collect and preserve, using forensic procedures where possible:
+
+EDR alerts and endpoint timelines
+Memory captures from key compromised systems
+Disk images or forensic collections
+Malware samples and cryptographic hashes
+Email messages and malicious attachments
+Authentication, VPN, firewall, DNS, proxy, and network-flow logs
+Cloud identity and audit logs
+File-access and database audit logs
+Backup-system logs
+DLP and secure web gateway alerts
+System, application, and security event logs
+Relevant screenshots and user reports
+Preserve the original evidence as read-only and work from copies. Maintain a chain-of-custody record.
+
+Identify the attack scope
+Build an asset and account list covering:
+
+Infected endpoints
+Servers and virtual machines
+Domain controllers and identity providers
+Cloud accounts and storage
+Databases
+File shares
+Backup infrastructure
+Email systems
+Remote-access tools
+Payment and financial systems
+Customer and vendor portals
+Third-party integrations
+Determine:
+
+How the malware entered
+The earliest known compromise time
+Whether it is still active
+Which accounts were used
+Which systems were accessed
+Whether privilege escalation occurred
+Whether sensitive data was viewed, copied, compressed, or transferred
+Do not assume that a lack of alerts means that data was not accessed.
+
+4. Data-Breach Assessment
+Create a data inventory for customer and vendor information.
+
+Identify potentially exposed data
+Examples include:
+
+Names and contact information
+Account identifiers
+Government or tax identification numbers
+Financial-account or payment information
+Credit-card information
+Authentication credentials
+Contracts, invoices, and purchase records
+Vendor banking details
+Employee or contractor information
+Health, insurance, or other regulated information
+Proprietary pricing, product, or business data
+For each data category, record:
+
+Field	Example
+Data type	Vendor bank-account details
+Storage location	ERP database
+Systems accessed	ERP application server
+Evidence of access	Database audit log
+Evidence of exfiltration	Outbound transfer to unknown host
+Date range	4–9 August
+Number of records	Under investigation
+Applicable obligations	Contractual, privacy, financial-sector, or other
+Classify findings separately as:
+
+Confirmed accessed
+Confirmed exfiltrated
+Potentially exposed
+Not affected based on current evidence
+Unknown
+Avoid describing the incident publicly as a confirmed breach until the evidence and legal review support that conclusion, but do not delay required notifications while waiting for every detail.
+
+5. Malware Analysis and Eradication
+Analyze the malware
+Determine:
+
+Malware family and capabilities
+Persistence mechanisms
+C2 destinations and protocols
+Credential-stealing behavior
+Lateral-movement tools
+Data-staging locations
+Encryption or destructive functionality
+Whether the malware has multiple variants or payloads
+Search the environment for:
+
+Matching hashes and filenames
+Scheduled tasks and services
+Startup and registry modifications
+Suspicious scripts and PowerShell activity
+Unauthorized remote-access tools
+New local or domain accounts
+Unusual administrative-group membership
+Suspicious archive files
+C2 connections
+Security-tool exclusions
+Modified backup jobs or retention policies
+Eradicate
+Remove all identified persistence.
+Reimage systems that cannot be trusted.
+Patch exploited vulnerabilities.
+Replace compromised credentials and secrets.
+Rebuild critical identity systems if domain-level compromise is suspected.
+Remove unauthorized tools and accounts.
+Validate the integrity of security controls.
+Scan all systems, including backups and dormant assets.
+Obtain forensic confirmation before declaring eradication.
+
+6. Backup and Recovery Procedure
+Before restoring:
+
+Determine whether backups were accessed or altered.
+Verify that backup credentials were not compromised.
+Identify the last known-good backup.
+Scan backups for malware and persistence.
+Confirm that recovery points predate the attacker’s presence.
+Test restoration in an isolated environment.
+Rebuild identity and administrative controls first.
+Restore critical services in priority order.
+Monitor restored systems continuously.
+Suggested restoration order:
+
+Identity and authentication
+Network controls and security monitoring
+Core business and communication systems
+Customer and vendor applications
+File services and collaboration platforms
+Less-critical endpoints and applications
+Do not reconnect restored systems to the production network until security controls, credentials, logging, and monitoring are in place.
+
+7. Communications and Notifications
+Internal communications
+Provide employees with clear instructions:
+
+Do not open suspicious attachments or links.
+Do not use potentially compromised systems for incident communications.
+Do not delete files, emails, or logs.
+Do not contact suspected attackers without authorization.
+Report unusual prompts, files, encryption activity, or account behavior.
+Do not discuss the incident externally or on social media.
+External coordination
+Engage:
+
+Legal and privacy counsel
+Cyber-insurance provider
+External incident-response and forensic specialists
+Relevant regulators
+Law enforcement, where appropriate
+Payment-card or financial-sector contacts, if applicable
+Key vendors and customers, when required
+Credit-monitoring or support providers, if appropriate
+Notification obligations may depend on the type of data, affected jurisdictions, contractual terms, and whether access or exfiltration is confirmed. Counsel should coordinate the formal assessment and notification process.
+
+8. Ransomware-Specific Branch
+If files are encrypted or a ransom demand is present:
+
+Isolate affected systems immediately.
+Protect backup systems from further access.
+Preserve the ransom note, wallet address, email address, and timestamps.
+Do not negotiate or pay without executive, legal, insurance, and law-enforcement review.
+Determine whether data theft occurred in addition to encryption.
+Do not assume that decryption or payment resolves the compromise.
+Obtain professional advice before communicating with the threat actor.
+Check applicable sanctions and legal restrictions before any payment consideration.
+
+9. Recovery Validation
+Before closing the incident, verify:
+
+All known attacker access paths are closed.
+Credentials and secrets have been rotated.
+Vulnerabilities used in the attack are patched or mitigated.
+Endpoint, identity, network, and cloud monitoring are functioning.
+No unauthorized accounts, services, scheduled tasks, or remote tools remain.
+Backups are protected and recoverable.
+Customer and vendor data exposure has been assessed.
+Required notifications have been completed.
+Business owners have accepted residual risk.
+A final incident report and lessons-learned review are complete.
+Maintain heightened monitoring for at least several weeks after recovery, or longer if advised by your incident-response provider.
+
+10. Incident Action Log Template
+Time	Action	System/account	Person responsible	Evidence collected	Result
+11. Executive Situation Report Template
+Incident: Malware compromise
+Date/time detected:
+Current status: Active / Contained / Eradication / Recovery
+Known affected systems:
+Known affected accounts:
+Data potentially involved:
+Evidence of exfiltration: Yes / No / Unknown
+Operational impact:
+Actions completed:
+Actions underway:
+Key risks:
+Decisions required:
+Next update:
+
+Highest-Priority Actions for Today
+Activate the incident team and external response support.
+Isolate infected systems and block known attacker communications.
+Protect identity, privileged, backup, and cloud accounts.
+Preserve endpoint, email, authentication, network, and cloud evidence.
+Determine whether customer or vendor data was accessed or exfiltrated.
+Patch the exploited entry point and identify all affected assets.
+Notify legal counsel, privacy/compliance teams, and your cyber insurer.
+Restore only from verified, clean backups after eradication.
